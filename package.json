@@ -1,0 +1,22 @@
+{
+  "name": "multi_line_clamp",
+  "version": "1.0.0",
+  "description": "Plugin for multi line clamping",
+  "main": "multiLineClamp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arhitector/multyLineClimp.git"
+  },
+  "keywords": [
+    "clamp"
+  ],
+  "author": "Arhitector <arhitector666@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arhitector/multyLineClimp/issues"
+  },
+  "homepage": "https://github.com/Arhitector/multyLineClimp#readme"
+}

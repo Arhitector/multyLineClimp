@@ -1,15 +1,17 @@
-(function multyLineClimp() {
+var multiLineClamp = function (optionsData = {}) {
 	var CutTextMethod = function (options) {
 		this.options = options || {};
-		this.dataName = 'data-clampin';
-		this.baseContent = this.options.innerHTML;
-		this.supportWebkitLieClimp = 'webkitLineClamp' in document.body.style;
-		this.findClampinElement = function () {
-			return document.querySelectorAll('['+this.dataName+']');
-		};
-		this.initalize(this.findClampinElement(), this.supportWebkitLieClimp);
+		this.baseContent = {};
+		this.dataName = optionsData.dataName || 'data-clampin';
+		this.initalize();
 	};
 	CutTextMethod.prototype = {
+		findClampinElement: function () {
+			return document.querySelectorAll('['+this.dataName+']');
+		},
+		supportWebkitLieClimp: function () {
+			return 'webkitLineClamp' in document.body.style;
+		},
 		addWebkitLineClamp: function (item) {
 			item.style['-webkit-line-clamp'] = item.getAttribute(this.dataName);
 		},
@@ -70,10 +72,11 @@
 				this.addItemInArray();
 			}
 		},
-		initalize: function (array, supportWebkitLieClimp) {
+		initalize: function () {
+			var array = this.findClampinElement();
 			var arrayLength = array.length;
 			for (var i=0;i<arrayLength;i++) {
-				if (supportWebkitLieClimp === true) {
+				if (this.supportWebkitLieClimp() === true) {
 					this.addWebkitLineClamp(array[i]);
 				}else {
 					this.options = array[i];
@@ -86,4 +89,4 @@
 		}
 	};
 	var cutTextMethod = new CutTextMethod();
-})();
+};
