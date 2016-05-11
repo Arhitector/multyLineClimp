@@ -1,37 +1,39 @@
-var multiLineClamp = function (optionsData = {}) {
+'use strict';
+(function () {
 	var CutTextMethod = function (options) {
-		this.options = options || {};
+		this.options = options ? options : {};
+		this.options.dataName = options.dataName ? options.dataName : 'data-clampin';
+		this.content = {};
 		this.baseContent = {};
-		this.dataName = optionsData.dataName || 'data-clampin';
 		this.initalize();
 	};
 	CutTextMethod.prototype = {
 		findClampinElement: function () {
-			return document.querySelectorAll('['+this.dataName+']');
+			return document.querySelectorAll('['+this.options.dataName+']');
 		},
 		supportWebkitLieClimp: function () {
 			return 'webkitLineClamp' in document.body.style;
 		},
 		addWebkitLineClamp: function (item) {
-			item.style['-webkit-line-clamp'] = item.getAttribute(this.dataName);
+			item.style['-webkit-line-clamp'] = item.getAttribute(this.options.dataName);
 		},
 		getLineHeight: function () {
-			return this.getNmberValue(getComputedStyle(this.options).lineHeight);
+			return this.getNmberValue(getComputedStyle(this.content).lineHeight);
 		},
 		getCurrentHeight: function () {
-			return this.getNmberValue(getComputedStyle(this.options).height);
+			return this.getNmberValue(getComputedStyle(this.content).height);
 		},
 		getNmberValue: function (string) {
 			return string.match(/\d+/)[0];
 		},
 		elSetHeight: function () {
-			return this.getLineHeight() * this.options.getAttribute(this.dataName);
+			return this.getLineHeight() * this.content.getAttribute(this.options.dataName);
 		},
 		elGetContent: function () {
 			return this.baseContent.split(' ');
 		},
 		elContentSplit: function (el) {
-			return this.options.innerHTML.split(' ');
+			return this.content.innerHTML.split(' ');
 		},
 		elCutContentSplitNum: function () {
 			return Math.round(this.elContentSplit().length/2);
@@ -40,7 +42,7 @@ var multiLineClamp = function (optionsData = {}) {
 			return this.elContentSplit().slice(0, this.elCutContentSplitNum());
 		},
 		writeContent: function (el) {
-			this.options.innerHTML = el.join(' ');
+			this.content.innerHTML = el.join(' ');
 		},
 		checkHeightProportions: function () {
 			if (this.getCurrentHeight() > this.elSetHeight()) {
@@ -79,7 +81,7 @@ var multiLineClamp = function (optionsData = {}) {
 				if (this.supportWebkitLieClimp() === true) {
 					this.addWebkitLineClamp(array[i]);
 				}else {
-					this.options = array[i];
+					this.content = array[i];
 					this.baseContent = this.options.innerHTML;
 					if (this.checkHeightProportions() === -1) {
 						this.cutArray();
@@ -88,5 +90,5 @@ var multiLineClamp = function (optionsData = {}) {
 			}
 		}
 	};
-	var cutTextMethod = new CutTextMethod();
-};
+	!window.cutTextMethod && (window.CutTextMethod = CutTextMethod);
+})();
