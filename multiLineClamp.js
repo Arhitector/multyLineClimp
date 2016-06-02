@@ -2,7 +2,7 @@
 (function () {
 	var CutTextMethod = function (options) {
 		this.options = options ? options : {};
-		this.options.dataName = options.dataName ? options.dataName : 'data-clampin';
+		this.options.dataName = 'data-clampin';
 		this.content = {};
 		this.baseContent = {};
 		this.initalize();
@@ -29,7 +29,7 @@
 		elSetHeight: function () {
 			return this.getLineHeight() * this.content.getAttribute(this.options.dataName);
 		},
-		elGetContent: function () {
+		elGetBaseContent: function () {
 			return this.baseContent.split(' ');
 		},
 		elContentSplit: function (el) {
@@ -53,14 +53,16 @@
 				return 0;
 			}
 		},
-		addItemInArray: function () {
-			var writeArray = this.elContentSplit();
-			if(this.checkHeightProportions() !== -1 ) {
-				writeArray.push(this.elGetContent()[this.elContentSplit().length+1]);
+		addItemInArray: function (writeArray) {
+			var writeArray = writeArray || this.elContentSplit();
+			this.writeContent(writeArray);
+			writeArray.pop();
+			if(this.checkHeightProportions() !== -1) {
+				writeArray.push(this.elGetBaseContent()[writeArray.length]);
+				writeArray.push('...');
 				this.writeContent(writeArray);
-				this.addItemInArray();
+				this.addItemInArray(writeArray);
 			}else {
-				writeArray.pop();
 				writeArray.pop();
 				writeArray.push('...');
 				this.writeContent(writeArray);
@@ -71,7 +73,9 @@
 				this.writeContent(this.elCutContentSplit());
 				this.cutArray();
 			} else {
-				this.addItemInArray();
+				var writeArray = this.elContentSplit();
+				writeArray.push('...');
+				this.addItemInArray(writeArray);
 			}
 		},
 		initalize: function () {
@@ -82,7 +86,7 @@
 					this.addWebkitLineClamp(array[i]);
 				}else {
 					this.content = array[i];
-					this.baseContent = this.options.innerHTML;
+					this.baseContent = this.content.innerHTML;
 					if (this.checkHeightProportions() === -1) {
 						this.cutArray();
 					}
