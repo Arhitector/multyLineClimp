@@ -1,4 +1,4 @@
-##Plugin for multu line clamping text
+##Plugin for multi line clamping text
 
 #How to use
 - To div with text put class "js-clamp"
@@ -16,7 +16,7 @@
  <script src="../lib/multiLineClamp.js" ></script>
 ```
 
-- add declaration plugin 
+- add declaration plugin in the end of page
 ```
 <script>new CutTextMethod({});</script>
 ```
